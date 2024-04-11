@@ -29,7 +29,6 @@ const sum = document.getElementById('sum');
 const monitor1 = document.getElementById('m1');
 const monitor2 = document.getElementById('m2');
 const monitor3 = document.getElementById('m3');
-const dataing = document.getElementById('dataing');
 
 // ------------- local variables -------------//
 let dotstatus = false;
@@ -38,6 +37,7 @@ let mum2 = 0;
 let numberOneIs    = false;
 let isOperateOn    = false;
 let operatChangeOn = false;
+let isAssignOn     = false;
 let sumOn  = false;
 let subsOn = false;
 let diviOn = false;
@@ -60,8 +60,13 @@ function showNum1(){
         monitor1.innerHTML = num1;
         isOperateOn = false;
     }else {
-        num1 = parseInt(moniterStore1)
-        monitor1.innerHTML = num1;
+        if(moniterStore1 !== ''){
+            if(!isAssignOn){
+                num1 = parseFloat(moniterStore1)
+            }
+            monitor1.innerHTML = num1;
+            isAssignOn = false;
+        }
     }
     moniterStore1 = '';
     monitor3.innerHTML = moniterStore1;
@@ -70,9 +75,13 @@ function clearMonitor(){
     moniterStore1 = '';
     monitor1.innerHTML = "";
     monitor2.innerHTML = "";
-    monitor3.innerHTML = moniterStore1;
+    monitor3.innerHTML = '';
     dotstatus = false;
     numberOneIs = false;
+    sumOn  = false;
+    subsOn = false;
+    diviOn = false;
+    multOn = false;
 }
 
 function fractioning(){
@@ -94,112 +103,147 @@ function parenthesing(paraTyp){
 
 function operations(opsSign){
     switch(opsSign) {
-        case '%':
-            console.log('%');
-          break;
+
         case '+':
             console.log('+');
 
-            if (num1 !== 0 && num1 !== undefined && num1 !== null){
+            if ((num1 !== 0 && num1 !== undefined && num1 !== null) ||
+            ( sumOn === true || subsOn === true || diviOn === true || multOn === true)){
+
+                if(!sumOn){
+                   sumOn  = true ;
+                   subsOn = false;
+                   diviOn = false;
+                   multOn = false;
+                }
                 console.log('if is working')
-                if(!sumOn && !subsOn && !diviOn && !multOn){
-                    console.log('if in if is working')
-                    num1 = num1 + parseInt(moniterStore1);
+
+                if(moniterStore1 !== ""){
+                    num1 = num1 + parseFloat(moniterStore1);
                     isOperateOn = true;
                     showNum1()
-                    sumOn = true;
-                }else{
-                    console.log('else in if is working')
-                    sumOn  = true;
-                    subsOn = false;
-                    diviOn = false;
-                    multOn = false;
-                    monitor2.innerHTML = opsSign;
                 }
-                
+                    monitor2.innerHTML = opsSign;
             } else{
-                console.log('else is working')
+                console.log(`else is working`)
+                sumOn  = true ;
+                subsOn = false;
+                diviOn = false;
+                multOn = false;
                 showNum1()
+                monitor2.innerHTML = opsSign;
             }
           break;
         case '-':
             console.log('-');
 
-            if (num1 !== 0 && num1 !== undefined && num1 !== null){
-                console.log('if is working')
-                if(!sumOn && !subsOn && !diviOn && !multOn){
-                    console.log('if in if is working')
-                    num1 = num1 - parseInt(moniterStore1);
-                    isOperateOn = true;
-                    showNum1()
-                    subsOn = true;
-                }else{
-                    console.log('else in if is working')
+            if ((num1 !== 0 && num1 !== undefined && num1 !== null) ||
+             ( sumOn === true || subsOn === true || diviOn === true || multOn === true)){
+
+                if(!subsOn){
                     sumOn  = false;
-                    subsOn =  true;
+                    subsOn = true ;
                     diviOn = false;
                     multOn = false;
-                    monitor2.innerHTML = opsSign;
                 }
-                
-            } else{
-                console.log('else is working')
-                showNum1()
-            }
-          break;
-        case '÷':
-          console.log('÷');
-          if (num1 !== 0 && num1 !== undefined && num1 !== null){
-            console.log('if is working')
-            if(!sumOn && !subsOn && !diviOn && !multOn){
-                console.log('if in if is working')
-                num1 = num1 / parseInt(moniterStore1);
-                isOperateOn = true;
-                showNum1()
-                diviOn = true;
-            }else{
-                console.log('else in if is working')
-                sumOn  = false;
-                subsOn = false;
-                diviOn =  true;
-                multOn = false;
-                monitor2.innerHTML = opsSign;
-            }
-            
-        } else{
-            console.log('else is working')
-            showNum1()
-        }
-            
-        
-          break;
-        case 'x':
-            console.log('x');
-            
-            if (num1 !== 0 && num1 !== undefined && num1 !== null){
                 console.log('if is working')
-                if(sumOn && !subsOn && !diviOn && !multOn){
-                    console.log('if in if is working')
-                    num1 = num1 * parseInt(moniterStore1);
+
+                if(moniterStore1 !== ""){
+                    num1 = num1 - parseFloat(moniterStore1);
                     isOperateOn = true;
                     showNum1()
-                }else{
-                    console.log('else in if is working')
+                }
+                    monitor2.innerHTML = opsSign;
+            } else{
+                console.log(`else is working`)
+                sumOn  = false;
+                subsOn = true ;
+                diviOn = false;
+                multOn = false;
+                showNum1()
+                monitor2.innerHTML = opsSign;
+            }
+          break;
+        case '/':
+          console.log('÷');
+          if ((num1 !== 0 && num1 !== undefined && num1 !== null) ||
+             ( sumOn === true || subsOn === true || diviOn === true || multOn === true)){
+
+                if(!diviOn){
+                    sumOn  = false;
+                    subsOn = false;
+                    diviOn = true ;
+                    multOn = false;
+                }
+                console.log('if is working')
+
+                if(moniterStore1 !== ""){
+                    num1 = num1 / parseFloat(moniterStore1);
+                    isOperateOn = true;
+                    showNum1()
+                }
+                    monitor2.innerHTML = opsSign;
+            } else{
+                console.log(`else is working`)
+                sumOn  = false;
+                subsOn = false;
+                diviOn = true ;
+                multOn = false;
+                showNum1()
+                monitor2.innerHTML = opsSign;
+            }
+          break;
+        case '*':
+            console.log('x');
+            
+            if ((num1 !== 0 && num1 !== undefined && num1 !== null ) ||
+             ( sumOn === true || subsOn === true || diviOn === true || multOn === true)){
+
+                if(!multOn){
                     sumOn  = false;
                     subsOn = false;
                     diviOn = false;
-                    multOn =  true;
-                    monitor2.innerHTML = opsSign;
+                    multOn = true ;
                 }
-                
+                console.log('if is working')
+
+                if(moniterStore1 !== ""){
+                    num1 = num1 * parseFloat(moniterStore1);
+                    isOperateOn = true;
+                    showNum1()
+                }
+                    monitor2.innerHTML = opsSign;
             } else{
-                console.log('else is working')
-                sumOn = true;
+                console.log(`else is working`)
+                sumOn  = false;
+                subsOn = false;
+                diviOn = false;
+                multOn = true ;
                 showNum1()
+                monitor2.innerHTML = opsSign;
             }
           break;
-        case '=':
+        case '%':
+            console.log('%');
+          break;
+        case 'Enter':
             console.log('=')
+
+            if(moniterStore1 !== ""){
+                if(sumOn) num1 = num1 + parseFloat(moniterStore1);
+                else if(subsOn) num1 = num1 - parseFloat(moniterStore1);
+                else if(diviOn) num1 = num1 / parseFloat(moniterStore1);
+                else if(multOn) num1 = num1 * parseFloat(moniterStore1);
+                
+                isAssignOn = true;
+
+                showNum1();
+                sumOn  = false;
+                subsOn = false;
+                diviOn = false;
+                multOn = false;
+            }
+
           break;
       }
 }
@@ -245,14 +289,14 @@ window.addEventListener('keydown', (e)=> {
     if(e.key === '0' ||e.key === '1' ||e.key === '2'
      ||e.key === '3' ||e.key === '4' ||e.key === '5' 
      ||e.key === '6' ||e.key === '7' ||e.key === '8' 
-     ||e.key === '9'){
+     ||e.key === '9' ||e.key === '.'){
         justShow(e.key)
      }
      else if(e.key === '+' ||e.key === '-' ||e.key === '*'
      ||e.key === '/'){
-        monitor2.innerHTML = e.key;
         operations(e.key);
-     }else if(e.key === '%' ||e.key === '=')
+     }
+     else if(e.key === '%' ||e.key === 'Enter')
      {
         operations(e.key);
      }
