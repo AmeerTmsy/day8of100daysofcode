@@ -76,6 +76,7 @@ function clearMonitor(){
     monitor1.innerHTML = "";
     monitor2.innerHTML = "";
     monitor3.innerHTML = '';
+    num1 = 0;
     dotstatus = false;
     numberOneIs = false;
     sumOn  = false;
@@ -98,6 +99,13 @@ function parenthesing(paraTyp){
     }else{
         moniterStore1 = moniterStore1 + ')'
         monitor3.innerHTML = moniterStore1;
+    }
+}
+
+function ifZero(){
+    if(parseFloat(moniterStore1) === 0){
+        console.log("hi")
+        alert(`⚠️   If you divide a number by 0, it will get you infinity. refresh the page now!`)
     }
 }
 
@@ -168,16 +176,20 @@ function operations(opsSign){
           console.log('÷');
           if ((num1 !== 0 && num1 !== undefined && num1 !== null) ||
              ( sumOn === true || subsOn === true || diviOn === true || multOn === true)){
-
+                
+                console.log('if is working')
                 if(!diviOn){
                     sumOn  = false;
                     subsOn = false;
                     diviOn = true ;
                     multOn = false;
                 }
-                console.log('if is working')
 
                 if(moniterStore1 !== ""){
+                    // console.log(moniterStore1)
+                    ifZero();
+                    let n =parseFloat(moniterStore1);
+                    console.log( "hello")
                     num1 = num1 / parseFloat(moniterStore1);
                     isOperateOn = true;
                     showNum1()
@@ -232,7 +244,10 @@ function operations(opsSign){
             if(moniterStore1 !== ""){
                 if(sumOn) num1 = num1 + parseFloat(moniterStore1);
                 else if(subsOn) num1 = num1 - parseFloat(moniterStore1);
-                else if(diviOn) num1 = num1 / parseFloat(moniterStore1);
+                else if(diviOn) {
+                    ifZero()
+                    num1 = num1 / parseFloat(moniterStore1);
+                }
                 else if(multOn) num1 = num1 * parseFloat(moniterStore1);
                 
                 isAssignOn = true;
