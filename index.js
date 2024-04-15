@@ -106,6 +106,7 @@ function ifZero(){
     if(parseFloat(moniterStore1) === 0){
         console.log("hi")
         alert(`⚠️   If you divide a number by 0, it will get you infinity. refresh the page now!`)
+        location.replace('index.html');
     }
 }
 
